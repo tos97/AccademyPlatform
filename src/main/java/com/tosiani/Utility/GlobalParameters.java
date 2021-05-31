@@ -3,7 +3,6 @@ package com.tosiani.Utility;
 import java.io.File;
 
 public class GlobalParameters {
-
     //PATH
     public static final String BASE_PATH                    = System.getProperty("user.dir");
     public static final String SRC_PATH                     = BASE_PATH + File.separator + "src";
