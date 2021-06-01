@@ -5,8 +5,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-
-
 import static com.tosiani.Utility.Utils.valoreProp;
 
 public class Steps {
@@ -14,7 +12,7 @@ public class Steps {
     private static WebElement webElement = null; // non necessaria infatti per il bottone facciamo inline
 
     public static void search(WebDriver driver, String q, String nomeProp){
-        webElement = driver.findElement(By.name(valoreProp("name.input.search", nomeProp)));
+        webElement = driver.findElement(By.id(valoreProp("id.input.search", nomeProp)));
         webElement.clear();
         webElement.sendKeys(q);
         driver.findElement(By.id(valoreProp("id.btn.search", nomeProp))).click();
@@ -28,7 +26,7 @@ public class Steps {
                 System.out.println("Banner Trovato e chiuso");
             }
         }catch (NoSuchElementException | InterruptedException e) {
-            System.out.println("Elemento non Trovato");
+            System.out.println("Banner non Trovato");
         }
     }
 }
