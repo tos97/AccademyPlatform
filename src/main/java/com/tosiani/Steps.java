@@ -1,6 +1,5 @@
 package com.tosiani;
 
-import com.tosiani.Drivers.ManagmentDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -24,8 +23,7 @@ public class Steps {
     public static void closeBannerEbay(WebDriver driver, String nomeProp){
         try {
             Thread.sleep(3000);
-            webElement = driver.findElement(By.id(valoreProp("id.banner.gdb", nomeProp)));
-            if (webElement.isDisplayed()) {
+            if (driver.findElement(By.id(valoreProp("id.banner.gdb", nomeProp))).isDisplayed()) {
                 driver.findElement(By.id(valoreProp("id.btn.gdb", nomeProp))).click();
                 System.out.println("Banner Trovato e chiuso");
             }
