@@ -6,15 +6,10 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-
-import java.util.Locale;
-
 import static com.tosiani.Utility.Utils.valoreProp;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -52,7 +47,7 @@ public class Test_ilMeteo_001 {
     }
 
     @Test
-    @DisplayName("Test ilMeteo controllo menù bar Ciclo for")
+    @DisplayName("Test ilMeteo menù bar Ciclo for")
     @Order(2)
     void Test_002_Controllo(){
         String nome;
@@ -80,7 +75,7 @@ public class Test_ilMeteo_001 {
     }
 
     @ParameterizedTest(name = "{0}")
-    @DisplayName("Test ilMeteo controllo menù bar CSV")
+    @DisplayName("Test ilMeteo menù bar CSV")
     @CsvSource({"tab1","tab2","tab3","tab4","tab5","tab6","tab7","tab8","tab9","tab10","tab11","tab12","tab13","tab14"})
     @Order(3)
     void Test_003_Controllo(String tab){
@@ -93,6 +88,22 @@ public class Test_ilMeteo_001 {
             Thread.sleep(500);
             if (!nome.equals("Home"))
                 assertTrue(driver.findElement(By.xpath(valoreProp("xpath.title.result", nomeProp))).getText().toLowerCase().contains(nome.toLowerCase()));
+        }catch (InterruptedException e) {
+            System.out.println("Banner non Trovato");
+        }
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @DisplayName("Test ilMeteo menù bar Selected")
+    @CsvSource({"tab1","tab2","tab3","tab4","tab5","tab6","tab7","tab8","tab9","tab10","tab11","tab12","tab13","tab14"})
+    @Order(3)
+    void Test_004_Selected(String tab){
+        driver.get(valoreProp("ilMeteo.url", nomeProp));
+        try {
+            webElement = driver.findElement(By.id((tab)));
+            webElement.click();
+            Thread.sleep(500);
+            assertTrue(driver.findElement(By.xpath(valoreProp("xpath.title.result", nomeProp))).isEnabled());
         }catch (InterruptedException e) {
             System.out.println("Banner non Trovato");
         }
