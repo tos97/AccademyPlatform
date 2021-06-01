@@ -1,6 +1,6 @@
 package com.tosiani.web;
 
-import com.tosiani.Driver.ManagmentDriver;
+import com.tosiani.Drivers.ManagmentDriver;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
