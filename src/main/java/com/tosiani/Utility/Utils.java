@@ -5,14 +5,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.tosiani.Driver.GlobalParameters.*;
+import static com.tosiani.Utility.GlobalParameters.*;
 
 public class Utils {
 
     public static Properties loadProp(String propNome){
         Properties properties = new Properties();
         try{
-            properties.load(new FileInputStream(PROPERTIES_PATH + File.separator + propNome + EXIT_PROPERTIES));
+            properties.load(new FileInputStream(PROPERTIES_PATH + File.separator + propNome + EXT_PROP));
         } catch (IOException e){
             e.printStackTrace();
         }

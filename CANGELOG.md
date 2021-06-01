@@ -3,3 +3,4 @@
 - Creazione gestione Driver
 - Creazione simulazioni tasti navigazione 
 - Creazione Test window browser
+- Aggiornate Global Parameters

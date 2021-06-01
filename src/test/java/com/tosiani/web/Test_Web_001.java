@@ -1,13 +1,11 @@
 package com.tosiani.web;
 
-import com.tosiani.ManagmentDriver;
+import com.tosiani.Driver.ManagmentDriver;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WindowType;
-import org.openqa.selenium.chrome.ChromeDriver;
 
-import static com.tosiani.Driver.GlobalParameters.*;
 import static com.tosiani.Utility.Utils.valoreProp;
 
 public class Test_Web_001 {
@@ -67,7 +65,7 @@ public class Test_Web_001 {
         ManagmentDriver.getDriver().switchTo().newWindow(WindowType.TAB); //apre un nuovo tab
         ManagmentDriver.getDriver().get(valoreProp("G.url", "web"));
         ManagmentDriver.getDriver().close(); //chiude una scheda non la finestra
-        ManagmentDriver.getDriver().switchTo().window(handler);
+        ManagmentDriver.getDriver().switchTo().window(handler); //per cambiare scheda ci vuole il codice esatto (cambia ad ogni chiamata)
 
         ManagmentDriver.getDriver().switchTo().newWindow(WindowType.WINDOW);
         ManagmentDriver.getDriver().get(valoreProp("G.url", "web"));
@@ -80,7 +78,7 @@ public class Test_Web_001 {
 
     @AfterAll
     static void tearDownAll(){
-        //ManagmentDriver.stopDriver();
+        ManagmentDriver.stopDriver();
     }
 
 }
