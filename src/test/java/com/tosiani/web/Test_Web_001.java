@@ -2,75 +2,80 @@ package com.tosiani.web;
 
 import com.tosiani.Drivers.ManagmentDriver;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WindowType;
+import org.openqa.selenium.*;
 
 import static com.tosiani.Utility.Utils.valoreProp;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test_Web_001 {
 
-
+    static private WebDriver driver = null;
 
     @BeforeAll
     static void beforeAll(){
         ManagmentDriver.startDriver();
+        driver = ManagmentDriver.getDriver();
     }
 
     @BeforeEach
     void beforeEach(){}
 
+
     @Test
     @DisplayName("Test tasti navigazione Browser")
+    @Order(1)
     void Test_001_Google(){
-        ManagmentDriver.getDriver().get(valoreProp("G.url", "web"));
-        ManagmentDriver.getDriver().get(valoreProp("ebay.url", "web"));
+        driver.get(valoreProp("G.url", "web"));
+        driver.get(valoreProp("ebay.url", "web"));
 
-        System.out.println("Titolo:"+ManagmentDriver.getDriver().getTitle()); //stampa il titolo
-        System.out.println("URL:"+ManagmentDriver.getDriver().getCurrentUrl()); //stampa l'url
+        System.out.println("Titolo:"+driver.getTitle()); //stampa il titolo
+        System.out.println("URL:"+driver.getCurrentUrl()); //stampa l'url
         System.out.println();
 
-        ManagmentDriver.getDriver().navigate().back();
+        driver.navigate().back();
 
-        System.out.println("Titolo:"+ManagmentDriver.getDriver().getTitle());
-        System.out.println("URL:"+ManagmentDriver.getDriver().getCurrentUrl());
+        System.out.println("Titolo:"+driver.getTitle());
+        System.out.println("URL:"+driver.getCurrentUrl());
 
-        ManagmentDriver.getDriver().navigate().forward();
-        ManagmentDriver.getDriver().navigate().refresh();
+        driver.navigate().forward();
+        driver.navigate().refresh();
 
-        ManagmentDriver.getDriver().switchTo().newWindow(WindowType.TAB);
+        driver.switchTo().newWindow(WindowType.TAB);
     }
 
     @Test
     @DisplayName("Test impostazioni finestra Browser")
+    @Order(2)
     void Test_002_Google(){
-        ManagmentDriver.getDriver().get(valoreProp("ebay.url", "web"));
+        driver.get(valoreProp("ebay.url", "web"));
 
-        String handler = ManagmentDriver.getDriver().getWindowHandle();
+        String handler = driver.getWindowHandle();
 
         System.out.println("Handle Windows: "+handler); //info finestra
-        System.out.println("Width: "+ManagmentDriver.getDriver().manage().window().getSize().getWidth()); //larghezza
-        System.out.println("Height: "+ManagmentDriver.getDriver().manage().window().getSize().getHeight()); //altezza
-        System.out.println("Pos X: "+ManagmentDriver.getDriver().manage().window().getPosition().getX()); //posizione X
-        System.out.println("Pos Y: "+ManagmentDriver.getDriver().manage().window().getPosition().getY()); //posizione y
+        System.out.println("Width: "+driver.manage().window().getSize().getWidth()); //larghezza
+        System.out.println("Height: "+driver.manage().window().getSize().getHeight()); //altezza
+        System.out.println("Pos X: "+driver.manage().window().getPosition().getX()); //posizione X
+        System.out.println("Pos Y: "+driver.manage().window().getPosition().getY()); //posizione y
 
         //gestione posizione e dimensione
-        ManagmentDriver.getDriver().manage().window().setSize(new Dimension(1024, 768));
-        ManagmentDriver.getDriver().manage().window().setPosition(new Point(500, 0));
+        driver.manage().window().setSize(new Dimension(1024, 768));
+        driver.manage().window().setPosition(new Point(500, 0));
 
-        ManagmentDriver.getDriver().manage().window().minimize();
-        ManagmentDriver.getDriver().manage().window().maximize();
-        ManagmentDriver.getDriver().manage().window().fullscreen();
+        driver.manage().window().minimize();
+        driver.manage().window().maximize();
+        driver.manage().window().fullscreen();
 
-        ManagmentDriver.getDriver().switchTo().newWindow(WindowType.TAB); //apre un nuovo tab
-        ManagmentDriver.getDriver().get(valoreProp("G.url", "web"));
-        ManagmentDriver.getDriver().close(); //chiude una scheda non la finestra
-        ManagmentDriver.getDriver().switchTo().window(handler); //per cambiare scheda ci vuole il codice esatto (cambia ad ogni chiamata)
+        driver.switchTo().newWindow(WindowType.TAB); //apre un nuovo tab
+        driver.get(valoreProp("G.url", "web"));
+        driver.close(); //chiude una scheda non la finestra
+        driver.switchTo().window(handler); //per cambiare scheda ci vuole il codice esatto (cambia ad ogni chiamata)
 
-        ManagmentDriver.getDriver().switchTo().newWindow(WindowType.WINDOW);
-        ManagmentDriver.getDriver().get(valoreProp("G.url", "web"));
-        ManagmentDriver.getDriver().close();
+        driver.switchTo().newWindow(WindowType.WINDOW);
+        driver.get(valoreProp("G.url", "web"));
+        driver.close();
+        driver.switchTo().window(handler);
     }
+
 
     @AfterEach
     void tearDown(){
