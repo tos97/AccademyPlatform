@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.tosiani.Utility.GlobalParameters.*;
+import static com.tosiani.Driver.GlobalParameters.*;
 
 public class Utils {
 
