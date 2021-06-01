@@ -1,8 +1,10 @@
 package com.tosiani;
 
+import com.tosiani.Utility.Utils;
 import org.apache.log4j.BasicConfigurator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import sun.text.normalizer.Utility;
 
 import static com.tosiani.Driver.GlobalParameters.CHROME_DRIVER;
 
@@ -15,7 +17,8 @@ public class ManagmentDriver {
         cDriver = new ChromeDriver();
         System.err.close();
         System.setErr(System.err);
-        BasicConfigurator.configure();
+        Utils.loadProp("log4j");
+        //BasicConfigurator.configure();
     }
 
     public static WebDriver getDriver(){
