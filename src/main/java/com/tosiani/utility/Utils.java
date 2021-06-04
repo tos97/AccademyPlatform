@@ -1,11 +1,11 @@
-package com.tosiani.Utility;
+package com.tosiani.utility;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.tosiani.Utility.GlobalParameters.*;
+import static com.tosiani.utility.GlobalParameters.*;
 
 public class Utils {
 

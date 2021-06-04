@@ -1,10 +1,10 @@
 package com.tosiani.web;
 
-import com.tosiani.Drivers.ManagmentDriver;
+import com.tosiani.drivers.ManagmentDriver;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 
-import static com.tosiani.Utility.Utils.valoreProp;
+import static com.tosiani.utility.Utils.valoreProp;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test_Web_001 {
@@ -40,7 +40,7 @@ public class Test_Web_001 {
         driver.navigate().forward();
         driver.navigate().refresh();
 
-        driver.switchTo().newWindow(WindowType.TAB);
+        //driver.switchTo().newWindow(WindowType.TAB);
     }
 
     @Test
@@ -61,16 +61,16 @@ public class Test_Web_001 {
         driver.manage().window().setSize(new Dimension(1024, 768));
         driver.manage().window().setPosition(new Point(500, 0));
 
-        driver.manage().window().minimize();
+        //driver.manage().window().minimize();
         driver.manage().window().maximize();
         driver.manage().window().fullscreen();
 
-        driver.switchTo().newWindow(WindowType.TAB); //apre un nuovo tab
+        //driver.switchTo().newWindow(WindowType.TAB); //apre un nuovo tab
         driver.get(valoreProp("G.url", "web"));
         driver.close(); //chiude una scheda non la finestra
         driver.switchTo().window(handler); //per cambiare scheda ci vuole il codice esatto (cambia ad ogni chiamata)
 
-        driver.switchTo().newWindow(WindowType.WINDOW);
+        //driver.switchTo().newWindow(WindowType.WINDOW);
         driver.get(valoreProp("G.url", "web"));
         driver.close();
         driver.switchTo().window(handler);

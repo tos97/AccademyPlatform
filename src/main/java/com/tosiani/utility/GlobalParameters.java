@@ -1,4 +1,4 @@
-package com.tosiani.Utility;
+package com.tosiani.utility;
 
 import java.io.File;
 

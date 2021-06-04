@@ -1,10 +1,10 @@
-package com.tosiani.Drivers;
+package com.tosiani.drivers;
 
-import com.tosiani.Utility.Utils;
+import com.tosiani.utility.Utils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import static com.tosiani.Utility.GlobalParameters.*;
+import static com.tosiani.utility.GlobalParameters.*;
 
 public class ManagmentDriver {
     private static ChromeDriver cDriver;

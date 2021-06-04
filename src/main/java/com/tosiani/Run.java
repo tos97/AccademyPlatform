@@ -1,8 +1,6 @@
 package com.tosiani;
 
-import sun.text.normalizer.Utility;
-
-import static com.tosiani.Utility.Utils.*;
+import static com.tosiani.utility.Utils.*;
 
 public class Run {
     public static void main(String [] args){

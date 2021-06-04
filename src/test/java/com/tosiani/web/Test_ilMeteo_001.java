@@ -1,6 +1,6 @@
 package com.tosiani.web;
 
-import com.tosiani.Drivers.ManagmentDriver;
+import com.tosiani.drivers.ManagmentDriver;
 import com.tosiani.Steps;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static com.tosiani.Utility.Utils.valoreProp;
+import static com.tosiani.utility.Utils.valoreProp;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -18,12 +18,14 @@ public class Test_ilMeteo_001 {
 
     WebElement webElement = null;
     static private WebDriver driver = null;
+    private static Steps steps = null;
     private static String nomeProp = "ilMeteo";
 
     @BeforeAll
     static void beforeAll(){
         ManagmentDriver.startDriver();
         driver = ManagmentDriver.getDriver();
+        steps = new Steps();
     }
 
     @BeforeEach
@@ -36,13 +38,13 @@ public class Test_ilMeteo_001 {
     @Order(1)
     void Test_001_Ricerca(String q){
         driver.get(valoreProp("ilMeteo.url", nomeProp));
-        Steps.closeBannerEbay(driver, nomeProp);
-        Steps.search(driver, q, nomeProp);
+        steps.closeBannerEbay(driver, nomeProp);
+        steps.search(driver, q, nomeProp);
         String risultato = driver.findElement(By.id(valoreProp("id.citta.result", nomeProp))).getText();
         if(!risultato.contains(q.toUpperCase()))
             fail("Città non trovata\n");
         else{
-            System.out.println("Città "+q.toUpperCase()+"trovata\n");
+            System.out.println("Città "+q.toUpperCase()+" trovata\n");
         }
     }
 
@@ -58,7 +60,7 @@ public class Test_ilMeteo_001 {
                 nome = webElement.getText();
                 webElement.click();
                 Thread.sleep(500);
-                if (nome.equals("Home"))
+                if (!nome.equals("Home"))
                     continue;
                 else{
                     if (!driver.findElement(By.xpath(valoreProp("xpath.title.result", nomeProp))).getText().toLowerCase().contains(nome.toLowerCase()))
@@ -96,7 +98,7 @@ public class Test_ilMeteo_001 {
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test ilMeteo menù bar Selected")
     @CsvSource({"tab1","tab2","tab3","tab4","tab5","tab6","tab7","tab8","tab9","tab10","tab11","tab12","tab13","tab14"})
-    @Order(3)
+    @Order(4)
     void Test_004_Selected(String tab){
         driver.get(valoreProp("ilMeteo.url", nomeProp));
         try {
