@@ -39,7 +39,7 @@ public class Test_ilMeteo_001 {
     void Test_001_Ricerca(String q){
         driver.get(valoreProp("ilMeteo.url", nomeProp));
         steps.closeBannerEbay(driver, nomeProp);
-        steps.search(driver, q, nomeProp);
+        steps.searchById(driver, q, nomeProp);
         String risultato = driver.findElement(By.id(valoreProp("id.citta.result", nomeProp))).getText();
         if(!risultato.contains(q.toUpperCase()))
             fail("Città non trovata\n");

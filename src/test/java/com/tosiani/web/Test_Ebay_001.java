@@ -7,13 +7,13 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.Color;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.tosiani.utility.Utils.valoreProp;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test_Ebay_001 {
@@ -38,7 +38,7 @@ public class Test_Ebay_001 {
     @Order(1)
     void Test_001(){
         driver.get(valoreProp("ebay.url", nomeProp));
-        step.search(driver, "Iphone", nomeProp);
+        step.searchById(driver, "Iphone", nomeProp);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class Test_Ebay_001 {
     void Test_003(String q){
         driver.get(valoreProp("ebay.url", nomeProp));
         step.closeBannerEbay(driver, nomeProp);
-        step.search(driver, q, nomeProp);
+        step.searchById(driver, q, nomeProp);
         String risultato = driver.findElement(By.xpath(valoreProp("xpath.span.result", nomeProp))).getText();
         System.out.println("Risultato: "+risultato);
         if(risultato.length() < 1)
@@ -96,14 +96,11 @@ public class Test_Ebay_001 {
     @Order(6)
     void Test_006(){
         ArrayList<RicercaEbay> arrayRicerca = new ArrayList<>();
-
         driver.get(valoreProp("ebay.url", nomeProp));
-        step.search(driver,"iphone",nomeProp);
-
+        step.searchById(driver,"iphone",nomeProp);
         for (WebElement element: driver.findElement(By.id(valoreProp("id.div.result", nomeProp))).findElements(By.className(valoreProp("class.li", nomeProp)))){
             arrayRicerca.add(new RicercaEbay(step.getTitle(element,nomeProp),step.getSubtilte(element,nomeProp),step.getPrezzo(element,nomeProp),step.getImg(element,nomeProp)));
         }
-
         /*for (WebElement element: driver.findElement(By.id(valoreProp("id.div.result", nomeProp))).findElements(By.className(valoreProp("class.li", nomeProp)))){
             arrayRicerca.add(new RicercaEbay(element.findElement(By.className(valoreProp("class.title", nomeProp))).getText(),element.findElement(By.className(valoreProp("class.prize", nomeProp))).getText(),element.findElement(By.className(valoreProp("class.img", nomeProp))).getAttribute("src")));
         }*/
@@ -114,11 +111,33 @@ public class Test_Ebay_001 {
             System.out.println(element.getPrezzo());
             System.out.println(element.getLink());
         }*/
-
         for (RicercaEbay element: arrayRicerca){
             System.out.println();
             element.stampa();
         }
+    }
+
+    @Test
+    @DisplayName("Colore 1")
+    @Order(7)
+    void Test_007(){
+        driver.get(valoreProp("ebay.url", nomeProp));
+        Color ButtonBackgroundColour = Color.fromString(driver.findElement(By.id(valoreProp("id.btn.search", nomeProp))).getCssValue("background-color"));
+        assert ButtonBackgroundColour.asHex().equals("#3665f3");
+    }
+
+    @ParameterizedTest(name = "Oggetto: {0}")
+    @DisplayName("Selezione")
+    @CsvSource({"Auto,//*[@id=\"gh-cat\"]/option[4]","Hobby,//*[@id=\"gh-cat\"]/option[17]","TV,//*[@id=\"gh-cat\"]/option[28]"})
+    @Order(8)
+    void Test_008(String ricerca, String xpathRic){
+        driver.get(valoreProp("ebay.url", nomeProp));
+        driver.findElement(By.id(valoreProp("id.box", nomeProp))).click();
+        for (WebElement element: driver.findElement(By.id(valoreProp("id.box", nomeProp))).findElements(By.tagName("option"))){
+            if(element.getText().contains(ricerca))
+                element.click();
+        }
+        assertTrue(driver.findElement(By.xpath(xpathRic)).isSelected());
     }
 
 

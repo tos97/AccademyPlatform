@@ -12,11 +12,18 @@ public class Steps {
     private WebElement webElement = null; // non necessaria infatti per il bottone facciamo inline
     private WebDriver driver = ManagmentDriver.getDriver();
 
-    public void search(WebDriver driver, String q, String nomeProp){
+    public void searchById(WebDriver driver, String q, String nomeProp){
         webElement = driver.findElement(By.id(valoreProp("id.input.search", nomeProp)));
         webElement.clear();
         webElement.sendKeys(q);
         driver.findElement(By.id(valoreProp("id.btn.search", nomeProp))).click();
+    }
+
+    public void searchByXpath(WebDriver driver, String q, String nomeProp){
+        webElement = driver.findElement(By.xpath(valoreProp("xpath.input.ricerca", nomeProp)));
+        webElement.clear();
+        webElement.sendKeys(q);
+        webElement.sendKeys(Keys.ENTER);
     }
 
     public void closeBannerEbay(WebDriver driver, String nomeProp){
@@ -31,6 +38,18 @@ public class Steps {
         }catch (NoSuchElementException | InterruptedException e) {
             System.out.println("Banner non Trovato");
             //InterruptedException eccezione sleep
+        }
+    }
+
+    public void closeBannerGoogle(WebDriver driver){
+        try {
+            Thread.sleep(3000);
+            if (driver.findElement(By.id(valoreProp("id.btn.cookie", "web"))).isDisplayed()) {
+                driver.findElement(By.id(valoreProp("id.btn.cookie", "web"))).click();
+                System.out.println("Banner Trovato e chiuso");
+            }
+        }catch (NoSuchElementException | InterruptedException e) {
+            System.out.println("Banner non Trovato");
         }
     }
 
