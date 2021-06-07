@@ -1,13 +1,15 @@
 package com.tosiani.web;
 
 import com.tosiani.drivers.ManagmentDriver;
-import com.tosiani.Steps;
+import com.tosiani.step.Steps;
+import com.tosiani.selenium.DefaultChromeOptions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import static com.tosiani.utility.Utils.valoreProp;
 import static org.junit.Assert.assertTrue;
@@ -23,7 +25,8 @@ public class Test_ilMeteo_001 {
 
     @BeforeAll
     static void beforeAll(){
-        ManagmentDriver.startDriver();
+        DefaultChromeOptions defaultChromeOptions = new DefaultChromeOptions(new ChromeOptions());
+        ManagmentDriver.startDriver(defaultChromeOptions);
         driver = ManagmentDriver.getDriver();
         steps = new Steps();
     }

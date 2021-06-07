@@ -1,4 +1,4 @@
-package com.tosiani;
+package com.tosiani.step;
 
 import com.tosiani.drivers.ManagmentDriver;
 import org.openqa.selenium.*;
@@ -10,7 +10,6 @@ import static com.tosiani.utility.Utils.valoreProp;
 public class Steps {
 
     private WebElement webElement = null; // non necessaria infatti per il bottone facciamo inline
-    private WebDriver driver = ManagmentDriver.getDriver();
 
     public void searchById(WebDriver driver, String q, String nomeProp){
         webElement = driver.findElement(By.id(valoreProp("id.input.search", nomeProp)));

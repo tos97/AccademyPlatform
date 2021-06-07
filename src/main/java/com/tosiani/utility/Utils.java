@@ -1,8 +1,17 @@
 package com.tosiani.utility;
 
+import com.tosiani.drivers.ManagmentDriver;
+import org.junit.Assert;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import static com.tosiani.utility.GlobalParameters.*;
@@ -24,5 +33,16 @@ public class Utils {
         if (prop.getProperty(chiave).length() > 0)
             return prop.getProperty(chiave);
         return "";
+    }
+
+    public static void getScreenshot(){
+        try {
+            SimpleDateFormat dta = new SimpleDateFormat("yyyyMMddHHmmss");
+            String sDate = dta.format(new Date());
+            byte[] immagine = ((TakesScreenshot)ManagmentDriver.getDriver()).getScreenshotAs(OutputType.BYTES);
+            Files.write(Paths.get(SCREENSHOT_PATH+sDate+".png"),immagine);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

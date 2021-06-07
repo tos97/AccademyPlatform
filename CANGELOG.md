@@ -10,3 +10,4 @@
 - Test ilMeteo fatti
 - Fatti test su altre funzioni (come il colore)
 - Fatto test di ricerca Google
+- Nuovi test mobile ebay

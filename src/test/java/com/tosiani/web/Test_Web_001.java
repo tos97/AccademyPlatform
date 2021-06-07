@@ -1,12 +1,15 @@
 package com.tosiani.web;
 
-import com.tosiani.Steps;
+import com.tosiani.step.Steps;
 import com.tosiani.drivers.ManagmentDriver;
-import com.tosiani.models.Coordinate;
+import com.tosiani.selenium.DefaultChromeOptions;
+import com.tosiani.step.StepsMobile;
+import com.tosiani.utility.Utils;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import static com.tosiani.utility.Utils.valoreProp;
 
@@ -14,13 +17,28 @@ import static com.tosiani.utility.Utils.valoreProp;
 public class Test_Web_001 {
 
     static private Steps steps = null;
+    static private StepsMobile stepsMobile = null;
     static private WebDriver driver = null;
     static private WebElement webElement = null;
+    static private String nomeProp = "";
+
+    static private boolean mobile = true;
 
     @BeforeAll
     static void beforeAll(){
+        DefaultChromeOptions defaultChromeOptions = new DefaultChromeOptions(new ChromeOptions());
+        if(mobile){
+            defaultChromeOptions.addArguments("--window-size=375,812");
+            defaultChromeOptions.addArguments("--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148");
+            nomeProp = "mobile";
+        }
+        else{
+            nomeProp = "web";
+        }
+
         steps = new Steps();
-        ManagmentDriver.startDriver();
+        stepsMobile = new StepsMobile();
+        ManagmentDriver.startDriver(defaultChromeOptions);
         driver = ManagmentDriver.getDriver();
     }
 
@@ -29,11 +47,12 @@ public class Test_Web_001 {
 
 
     @Test
-    @DisplayName("Test tasti navigazione Browser")
+    @DisplayName("Test tasti navigazione Browser Desktop")
     @Order(1)
+    @Tag("Desktop")
     void Test_001_Google(){
-        driver.get(valoreProp("G.url", "web"));
-        driver.get(valoreProp("ebay.url", "web"));
+        driver.get(valoreProp("G.url", nomeProp));
+        driver.get(valoreProp("ebay.url", nomeProp));
 
         System.out.println("Titolo:"+driver.getTitle()); //stampa il titolo
         System.out.println("URL:"+driver.getCurrentUrl()); //stampa l'url
@@ -51,10 +70,11 @@ public class Test_Web_001 {
     }
 
     @Test
-    @DisplayName("Test impostazioni finestra Browser")
+    @DisplayName("Test impostazioni finestra Browser Desktop")
     @Order(2)
+    @Tag("Desktop")
     void Test_002_Google(){
-        driver.get(valoreProp("ebay.url", "web"));
+        driver.get(valoreProp("ebay.url", nomeProp));
 
         String handler = driver.getWindowHandle();
 
@@ -73,12 +93,12 @@ public class Test_Web_001 {
         driver.manage().window().fullscreen();
 
         //driver.switchTo().newWindow(WindowType.TAB); //apre un nuovo tab
-        driver.get(valoreProp("G.url", "web"));
+        driver.get(valoreProp("G.url", nomeProp));
         driver.close(); //chiude una scheda non la finestra
         driver.switchTo().window(handler); //per cambiare scheda ci vuole il codice esatto (cambia ad ogni chiamata)
 
         //driver.switchTo().newWindow(WindowType.WINDOW);
-        driver.get(valoreProp("G.url", "web"));
+        driver.get(valoreProp("G.url", nomeProp));
         driver.close();
         driver.switchTo().window(handler);
     }
@@ -102,15 +122,35 @@ public class Test_Web_001 {
     }*/
 
     @ParameterizedTest
-    @DisplayName("accetta cookie")
+    @DisplayName("accetta cookie google Desktop")
     @CsvSource({"Iphone","accendini"})
     @Order(3)
-    void Test_003(String q) throws InterruptedException{
-        driver.get(valoreProp("G.url", "web"));
-
+    @Tag("Desktop")
+    void Test_003(String q){
+        driver.get(valoreProp("G.url", nomeProp));
         steps.closeBannerGoogle(driver);
+        steps.searchByXpath(driver, q, nomeProp);
+        Utils.getScreenshot();
+    }
 
-        steps.searchByXpath(driver, q, "web");
+    @ParameterizedTest
+    @DisplayName("accetta cookie google Mobile")
+    @CsvSource({"Iphone","accendini"})
+    @Order(4)
+    @Tag("Mobile")
+    void Test_004(String q){
+        driver.get(valoreProp("G.url", nomeProp));
+        stepsMobile.closeBannerGoogle(driver);
+        stepsMobile.searchByXpath(driver, q);
+    }
+
+    @Test
+    @DisplayName("Apre yt e lancia una canzone mobile")
+    @Order(4)
+    @Tag("Mobile")
+    void Test_005(){
+        driver.get(valoreProp("YT.url", nomeProp));
+        driver.findElement(By.xpath(valoreProp("yt.primo.risultato", nomeProp))).click();
     }
 
 
@@ -122,5 +162,4 @@ public class Test_Web_001 {
     static void tearDownAll(){
         ManagmentDriver.stopDriver();
     }
-
 }
