@@ -8,3 +8,5 @@
 - Creata nuova properties che contiene solo quelle di ebay
 - pulizie Varie
 - Test ilMeteo fatti
+- Fatti test su altre funzioni (come il colore)
+- Fatto test di ricerca Google
