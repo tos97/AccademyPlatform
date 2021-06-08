@@ -141,7 +141,7 @@ public class Test_Web_001 {
     void Test_004(String q){
         driver.get(valoreProp("G.url", nomeProp));
         stepsMobile.closeBannerGoogle(driver);
-        stepsMobile.searchByXpath(driver, q);
+        stepsMobile.searchByXpath(driver, q, "mobile");
     }
 
     @Test

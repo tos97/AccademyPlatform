@@ -14,6 +14,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.tosiani.utility.Utils.valoreProp;
@@ -185,14 +186,13 @@ public class Test_Ebay_001 {
     }
 
     @ParameterizedTest(name = "n: {0}")
-    @DisplayName("next e screenshot")
+    @DisplayName("Next e screenshot")
     @Order(10)
     @CsvSource({"Iphone,4","ipad,3"})
     @Tag("Mobile")
     void Test_011(String qry,String pgn) throws InterruptedException{
         driver.get(valoreProp("ebay.url", nomeProp));
         step.searchByXpath(driver,qry, "mobile.ebay");
-        //System.out.println("URL:"+driver.getCurrentUrl());
         Utils.getScreenshot();
         assertTrue(stepsMobile.nextPgn(driver,Integer.parseInt(pgn)));
         assertTrue(stepsMobile.previousPgn(driver,Integer.parseInt(pgn)));
@@ -222,6 +222,58 @@ public class Test_Ebay_001 {
                 }
             }
         }*/
+    }
+
+    @Test
+    @DisplayName("Registrazione ebay")
+    @Order(11)
+    @Tag("Mobile")
+    void Test_012() throws InterruptedException{
+        driver.get(valoreProp("ebay.url", nomeProp));
+        Thread.sleep(1000);
+        driver.findElement(By.className(valoreProp("class.btn.menu", "mobile.ebay"))).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(valoreProp("xpath.btn.registrati", "mobile.ebay"))).click();
+        Thread.sleep(4000);
+        stepsMobile.insertValoriEbay(driver,"Pietr", "mobile.ebay", "id.input.nome");
+        Thread.sleep(1000);
+        stepsMobile.insertValoriEbay(driver,"Mari", "mobile.ebay", "id.input.cognome");
+        Thread.sleep(1000);
+        stepsMobile.insertValoriEbay(driver,"bovol54071@vva.com", "mobile.ebay", "id.input.email");
+        Thread.sleep(1000);
+        stepsMobile.insertValoriEbay(driver,"Franco12", "mobile.ebay", "id.input.password");
+        Thread.sleep(21000);
+        stepsMobile.insertValoriEbay(driver,"Franco1", "mobile.ebay", "id.input.password");
+        Thread.sleep(1000);
+        driver.findElement(By.id(valoreProp("id.input.enter", "mobile.ebay"))).click();
+    }
+
+    @Test
+    @DisplayName("Aggiungi al carrello")
+    @Order(11)
+    @Tag("Mobile")
+    void Test_013() throws InterruptedException{
+        ArrayList<RicercaEbay> arrayRicerca = new ArrayList<>();
+
+        int i = 1;
+        driver.get(valoreProp("ebay.url", nomeProp));
+        Thread.sleep(2000);
+
+        arrayRicerca.addAll(stepsMobile.cartSelection(driver,"cavo hdmi", 3));
+        driver.navigate().back();
+
+        arrayRicerca.addAll(stepsMobile.cartSelection(driver,"accendini", 1));
+
+        driver.findElement(By.xpath(valoreProp("xpath.btn.cart","mobile.ebay"))).click();
+
+
+
+        String[] tmp = new String[2];
+        Thread.sleep(1000);
+        tmp = driver.findElement(By.className(valoreProp("class.total.cart","mobile.ebay"))).getText().split(" ");
+
+        assertEquals(Float.parseFloat(tmp[1].replace(",",".")),(Float.parseFloat(arrayRicerca.get(0).getPrezzo()) + Float.parseFloat(arrayRicerca.get(1).getPrezzo())));
+
     }
 
 

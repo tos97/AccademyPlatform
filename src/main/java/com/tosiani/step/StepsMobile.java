@@ -1,7 +1,10 @@
 package com.tosiani.step;
 
+import com.tosiani.models.RicercaEbay;
 import com.tosiani.utility.Utils;
 import org.openqa.selenium.*;
+
+import java.util.ArrayList;
 
 import static com.tosiani.utility.Utils.valoreProp;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,8 +31,15 @@ public class StepsMobile {
         }
     }
 
-    public void searchByXpath(WebDriver driver, String q){
-        webElement = driver.findElement(By.xpath(valoreProp("xpath.input.ricerca", "mobile")));
+    public void searchByXpath(WebDriver driver, String q, String nomeProp){
+        webElement = driver.findElement(By.xpath(valoreProp("xpath.input.ricerca", nomeProp)));
+        webElement.clear();
+        webElement.sendKeys(q);
+        webElement.sendKeys(Keys.ENTER);
+    }
+
+    public void searchById(WebDriver driver, String q, String nomeProp){
+        webElement = driver.findElement(By.id(valoreProp("id.input.ricerca", nomeProp)));
         webElement.clear();
         webElement.sendKeys(q);
         webElement.sendKeys(Keys.ENTER);
@@ -45,7 +55,7 @@ public class StepsMobile {
                 if (driver.getCurrentUrl().contains(String.valueOf(i+1)))
                     ris = true;
                 else{
-                    ris = false;
+                    return false;
                 }
             }
         }
@@ -61,10 +71,38 @@ public class StepsMobile {
                 if (driver.getCurrentUrl().contains(String.valueOf(i-1)))
                     ris = true;
                 else{
-                    ris = false;
+                    return false;
                 }
             }
         }
         return ris;
+    }
+
+    public void insertValoriEbay(WebDriver driver, String q, String nomeProp, String chiave){
+        webElement = driver.findElement(By.id(valoreProp(chiave, nomeProp)));
+        webElement.clear();
+        webElement.sendKeys(q);
+    }
+
+    public ArrayList<RicercaEbay> cartSelection(WebDriver driver, String q, int i) throws InterruptedException{
+        ArrayList<RicercaEbay> arrayRicerca = new ArrayList<>();
+
+        searchById(driver,q, "mobile.ebay");
+        Thread.sleep(3000);
+        String risultato = valoreProp("xpath.ric.parte1","mobile.ebay") + i + valoreProp("xpath.ric.parte2","mobile.ebay");
+        driver.findElement(By.xpath(risultato)).click();
+        Thread.sleep(1000);
+        arrayRicerca.add(new RicercaEbay(
+                driver.findElement(By.className(valoreProp("class.title", "mobile.ebay"))).getText(),
+                driver.findElement(By.className(valoreProp("class.prezzo", "mobile.ebay"))).getText()
+        ));
+        String[] tmp = new String[2];
+        tmp = arrayRicerca.get(0).getPrezzo().split(" ");
+        arrayRicerca.get(0).setPrezzo(tmp[1].replace(",","."));
+
+        driver.findElement(By.id(valoreProp("id.btn.add.cart","mobile.ebay"))).click();
+        Thread.sleep(1000);
+
+        return arrayRicerca;
     }
 }

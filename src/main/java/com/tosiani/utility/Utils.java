@@ -24,6 +24,7 @@ public class Utils {
             properties.load(new FileInputStream(PROPERTIES_PATH + File.separator + propNome + EXT_PROP));
         } catch (IOException e){
             e.printStackTrace();
+            getScreenshot();
         }
         return properties;
     }
@@ -43,6 +44,7 @@ public class Utils {
             Files.write(Paths.get(SCREENSHOT_PATH+sDate+".png"),immagine);
         } catch (IOException e) {
             e.printStackTrace();
+            getScreenshot();
         }
     }
 }
