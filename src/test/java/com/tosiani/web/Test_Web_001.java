@@ -1,5 +1,8 @@
 package com.tosiani.web;
 
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import com.tosiani.step.Steps;
 import com.tosiani.drivers.ManagmentDriver;
 import com.tosiani.selenium.DefaultChromeOptions;
@@ -11,6 +14,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.File;
+
+import static com.tosiani.utility.GlobalParameters.*;
 import static com.tosiani.utility.Utils.valoreProp;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -21,8 +27,10 @@ public class Test_Web_001 {
     static private WebDriver driver = null;
     static private WebElement webElement = null;
     static private String nomeProp = "";
+    static private ExtentReports extentReports;
+    static private ExtentTest extentTest;
 
-    static private boolean mobile = true;
+    static private boolean mobile = false;
 
     @BeforeAll
     static void beforeAll(){
@@ -36,6 +44,8 @@ public class Test_Web_001 {
             nomeProp = "web";
         }
 
+        extentReports = new ExtentReports(REPORT_PATH + File.separator + "report" + EXT_HTML, false);
+        extentReports.loadConfig(new File(REPORT_CONFIG_XML));
         steps = new Steps();
         stepsMobile = new StepsMobile();
         ManagmentDriver.startDriver(defaultChromeOptions);
@@ -50,23 +60,27 @@ public class Test_Web_001 {
     @DisplayName("Test tasti navigazione Browser Desktop")
     @Order(1)
     @Tag("Desktop")
-    void Test_001_Google(){
+    void Test_001_Google(TestInfo testInfo) throws InterruptedException{
+        extentTest = extentReports.startTest(testInfo.getDisplayName());
         driver.get(valoreProp("G.url", nomeProp));
         driver.get(valoreProp("ebay.url", nomeProp));
 
-        System.out.println("Titolo:"+driver.getTitle()); //stampa il titolo
+        /*System.out.println("Titolo:"+driver.getTitle()); //stampa il titolo
         System.out.println("URL:"+driver.getCurrentUrl()); //stampa l'url
         System.out.println();
-
+        String sc = Utils.getScreen();
         driver.navigate().back();
 
         System.out.println("Titolo:"+driver.getTitle());
         System.out.println("URL:"+driver.getCurrentUrl());
-
+        Utils.getScreenshot();
         driver.navigate().forward();
         driver.navigate().refresh();
 
         //driver.switchTo().newWindow(WindowType.TAB);
+
+        Thread.sleep(4000);*/
+        extentTest.log(LogStatus.PASS, "Base64 img: "+extentTest.addBase64ScreenShot(Utils.getScreenBase64()));
     }
 
     @Test
@@ -156,10 +170,12 @@ public class Test_Web_001 {
 
     @AfterEach
     void tearDown(){
+        extentReports.endTest(extentTest);
     }
 
     @AfterAll
     static void tearDownAll(){
         ManagmentDriver.stopDriver();
+        extentReports.flush();
     }
 }

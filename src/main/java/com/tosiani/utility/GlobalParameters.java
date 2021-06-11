@@ -68,6 +68,7 @@ public class GlobalParameters {
 
     // REPORT
     public static final String REPORT_PATH 			 					= USER_DIR + File.separator + "report";
+    public static final String SCREENSHOT2_PATH                         = "screenshot" + File.separator;
     public static final String REPORT_CONFIG_XML 	 					= USER_DIR + File.separator + "report_config" + EXT_XML;
 
     //LOG

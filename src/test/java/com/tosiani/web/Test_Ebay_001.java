@@ -13,6 +13,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.Color;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Test_Ebay_001 {
 
     static private WebDriver driver = null;
+    private static WebElement webElement = null;
     private static String nomeProp = "";
     private static Steps step = null;
     private static StepsMobile stepsMobile = null;
@@ -249,31 +252,79 @@ public class Test_Ebay_001 {
     }
 
     @Test
-    @DisplayName("Aggiungi al carrello")
-    @Order(11)
+    @DisplayName("Aggiungi al carrello di ebay")
+    @Order(12)
     @Tag("Mobile")
     void Test_013() throws InterruptedException{
         ArrayList<RicercaEbay> arrayRicerca = new ArrayList<>();
-
-        int i = 1;
         driver.get(valoreProp("ebay.url", nomeProp));
         Thread.sleep(2000);
 
-        arrayRicerca.addAll(stepsMobile.cartSelection(driver,"cavo hdmi", 3));
+        arrayRicerca.addAll(stepsMobile.cartSelection(driver,"cavo hdmi", 3,true));
         driver.navigate().back();
+        arrayRicerca.addAll(stepsMobile.cartSelection(driver,"accendini", 1,true));
 
-        arrayRicerca.addAll(stepsMobile.cartSelection(driver,"accendini", 1));
-
-        driver.findElement(By.xpath(valoreProp("xpath.btn.cart","mobile.ebay"))).click();
-
-
-
+        driver.findElement(By.className(valoreProp("class.btn.cart","mobile.ebay"))).click();
         String[] tmp = new String[2];
-        Thread.sleep(1000);
         tmp = driver.findElement(By.className(valoreProp("class.total.cart","mobile.ebay"))).getText().split(" ");
 
         assertEquals(Float.parseFloat(tmp[1].replace(",",".")),(Float.parseFloat(arrayRicerca.get(0).getPrezzo()) + Float.parseFloat(arrayRicerca.get(1).getPrezzo())));
 
+    }
+
+    @ParameterizedTest(name = "Test con n = {0}")
+    @DisplayName("Aggiungi al carrello roba e altre op")
+    @Order(12)
+    @CsvSource({"4"})
+    @Tag("Mobile")
+    void Test_014(String numero) throws InterruptedException{
+        ArrayList<RicercaEbay> arrayRicerca = new ArrayList<>();
+        float somma = 0;
+        driver.get(valoreProp("ebay.url", nomeProp));
+        Thread.sleep(2000);
+
+        int n = Integer.parseInt(numero);
+        if (n < 1 || n > 50){
+            System.out.println("Numero non valido");
+            fail();
+        }
+
+        for(int i = 1;i < n;i++) {
+            if (i == 1)
+                arrayRicerca.addAll(stepsMobile.cartSelection(driver, "accendini", i, true));
+            else{
+                arrayRicerca.addAll(stepsMobile.cartSelection(driver, "accendini", i, false));
+            }
+            somma += Float.parseFloat(arrayRicerca.get(i-1).getPrezzo());
+            driver.navigate().back();
+        }
+
+        Thread.sleep(2000);
+        driver.findElement(By.className(valoreProp("class.btn.cart","mobile.ebay"))).click();
+
+        int elemento = 0;
+        int qty = 2;
+
+        /*if (!(elemento < n))
+            fail();*/
+
+        Thread.sleep(3000);
+        driver.findElements(By.cssSelector("button[data-test-id = 'cart-remove-item']")).get(elemento).click();
+        somma -= Float.parseFloat(arrayRicerca.get(n-2).getPrezzo());
+
+        Thread.sleep(2000);
+        webElement = driver.findElements(By.cssSelector("input[data-test-id = 'qty-textbox']")).get(elemento+1);
+        webElement.clear();
+        webElement.sendKeys(String.valueOf(qty));
+        webElement.sendKeys(Keys.ENTER);
+        somma -= Float.parseFloat(arrayRicerca.get(elemento+1).getPrezzo());
+        somma += Float.parseFloat(arrayRicerca.get(elemento+1).getPrezzo()) * qty;
+
+        Thread.sleep(3000);
+        String[] tmp = new String[2];
+        tmp = driver.findElement(By.xpath(valoreProp("xpath.total", "mobile.ebay"))).getText().split(" ");
+        NumberFormat nf = new DecimalFormat("0.00");
+        assertEquals(tmp[1],new String(nf.format(somma)));
     }
 
 

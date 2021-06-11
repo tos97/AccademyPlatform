@@ -1,6 +1,7 @@
 package com.tosiani.utility;
 
 import com.tosiani.drivers.ManagmentDriver;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.Properties;
 
@@ -46,5 +48,51 @@ public class Utils {
             e.printStackTrace();
             getScreenshot();
         }
+    }
+
+    public static String getScreen(){
+        String sDate = null;
+        try {
+            SimpleDateFormat dta = new SimpleDateFormat("yyyyMMddHH");
+            sDate = dta.format(new Date());
+            byte[] immagine = ((TakesScreenshot)ManagmentDriver.getDriver()).getScreenshotAs(OutputType.BYTES);
+            Files.write(Paths.get(SCREENSHOT_PATH+sDate+".png"),immagine);
+        } catch (IOException e) {
+            e.printStackTrace();
+            getScreenshot();
+        }
+        return sDate;
+    }
+
+    public static String getScreenBase64(){
+        String img = null;
+        Base64 base64 = new Base64();
+        try {
+            SimpleDateFormat dta = new SimpleDateFormat("yyyyMMddHHmmss");
+            String sDate = dta.format(new Date());
+            byte[] immagine = ((TakesScreenshot)ManagmentDriver.getDriver()).getScreenshotAs(OutputType.BYTES);
+            Files.write(Paths.get(SCREENSHOT_PATH+sDate+".png"),immagine);
+            img = base64.encodeBase64String(immagine);
+        } catch (Exception e) {
+            e.printStackTrace();
+            getScreenshot();
+        }
+        return "data:image/png;base64," + img;
+    }
+
+    public static String getScreenBase64(String nome){
+        String img = null;
+        Base64 base64 = new Base64();
+        try {
+            SimpleDateFormat dta = new SimpleDateFormat("yyyyMMddHHmmss");
+            String sDate = dta.format(new Date());
+            byte[] immagine = ((TakesScreenshot)ManagmentDriver.getDriver()).getScreenshotAs(OutputType.BYTES);
+            Files.write(Paths.get(SCREENSHOT_PATH+nome+".png"),immagine);
+            img = base64.encodeBase64String(immagine);
+        } catch (Exception e) {
+            e.printStackTrace();
+            getScreenshot();
+        }
+        return "data:image/png;base64," + img;
     }
 }

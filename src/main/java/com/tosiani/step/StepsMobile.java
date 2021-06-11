@@ -84,10 +84,11 @@ public class StepsMobile {
         webElement.sendKeys(q);
     }
 
-    public ArrayList<RicercaEbay> cartSelection(WebDriver driver, String q, int i) throws InterruptedException{
+    public ArrayList<RicercaEbay> cartSelection(WebDriver driver, String q, int i, boolean ricerca) throws InterruptedException{
         ArrayList<RicercaEbay> arrayRicerca = new ArrayList<>();
 
-        searchById(driver,q, "mobile.ebay");
+        if (ricerca)
+            searchById(driver,q, "mobile.ebay");
         Thread.sleep(3000);
         String risultato = valoreProp("xpath.ric.parte1","mobile.ebay") + i + valoreProp("xpath.ric.parte2","mobile.ebay");
         driver.findElement(By.xpath(risultato)).click();

@@ -11,3 +11,4 @@
 - Fatti test su altre funzioni (come il colore)
 - Fatto test di ricerca Google
 - Nuovi test mobile ebay
+- Test prodotti amazon con rispetive properties e steps
