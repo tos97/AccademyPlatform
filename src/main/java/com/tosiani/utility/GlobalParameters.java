@@ -53,6 +53,9 @@ public class GlobalParameters {
     public static final String MAC_SO 									= "Mac OS X";
     public static final String LINUX_SO 								= "Linux";
 
+    // APPIUM
+    public static final String SERVER_APPIUM                            = "http://127.0.0.1:4723/wd/hub";
+
     // CHROME DRIVER
     public static final String BASE_CHROME_PATH							= BASE_DRIVER_PATH + "chrome" + File.separator;
     public static final String CHROME_DRIVER_PATH_WIN 					= BASE_CHROME_PATH + "Windows" + File.separator + "chromedriver" + EXT_EXE;

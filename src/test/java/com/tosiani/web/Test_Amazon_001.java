@@ -51,7 +51,6 @@ public class Test_Amazon_001 {
     @BeforeEach
     void beforeEach(){}
 
-
     @Test
     @Order(1)
     @DisplayName("Test Amazon")
@@ -105,7 +104,7 @@ public class Test_Amazon_001 {
         if (risposta == 0)
             extentTest.log(LogStatus.PASS, "Base64 img carrello vuoto: ",extentTest.addBase64ScreenShot(Utils.getScreenBase64("Amazon carrello")));
         else{
-            if (risposta == 10000)
+            if (risposta == -1)
                 extentTest.log(LogStatus.FAIL, "ERRORE: "+step.getERRORE()+"\nBase64 img ERRORE carrello non vuoto: ",extentTest.addBase64ScreenShot(Utils.getScreenBase64("Amazon carrello")));
             else{
                 extentTest.log(LogStatus.FAIL, "Base64 img ERRORE carrello non vuoto\ncisono ancora: "+risposta+" prodotti",extentTest.addBase64ScreenShot(Utils.getScreenBase64("Amazon carrello")));

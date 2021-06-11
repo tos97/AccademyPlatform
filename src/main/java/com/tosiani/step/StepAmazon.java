@@ -145,7 +145,7 @@ public class StepAmazon {
             return driver.findElements(By.cssSelector("input[value = 'Rimuovi']")).size();
         } catch (Exception e){
             setERRORE(e.getMessage());
-            return 10000;
+            return -1;
         }
     }
 }
