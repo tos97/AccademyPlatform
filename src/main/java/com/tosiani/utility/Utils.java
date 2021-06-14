@@ -102,7 +102,7 @@ public class Utils {
         try {
             byte[] immagine = ((TakesScreenshot)ManagmentDriver.getAndroidDriver()).getScreenshotAs(OutputType.BYTES);
             Files.write(Paths.get(SCREENSHOT_PATH+nome+".png"),immagine);
-            img = base64.encodeBase64String(immagine);
+            img = new String(base64.encodeBase64String(immagine));
         } catch (Exception e) {
             e.printStackTrace();
             getScreenshot();

@@ -76,7 +76,7 @@ public class Test_Android_001 {
                 androidDriver.findElement(By.id(Utils.valoreProp("app.btn.login", "android"))).click();
                 Thread.sleep(1000);
                 if (androidDriver.findElement(By.id(Utils.valoreProp("id.btn.accettazione","android"))).isDisplayed()) {
-                    extentTest.log(LogStatus.INFO, "controllo "+(i-1)+" per verificare parametri login", Utils.getScreenBase64Android("Errore"+(i-1)));
+                    extentTest.log(LogStatus.INFO, "controllo "+(i-1)+" per verificare parametri login", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android("Errore"+(i-1))));
                     System.out.println(androidDriver.findElement(By.id(Utils.valoreProp("id.error.message","android"))).getText());
                     androidDriver.findElement(By.id(Utils.valoreProp("id.btn.accettazione","android"))).click();
                     Thread.sleep(500);
@@ -85,7 +85,7 @@ public class Test_Android_001 {
                     continue;
                 }
             } catch (NoSuchElementException e){
-                extentTest.log(LogStatus.INFO, "Ingresso Login", Utils.getScreenBase64Android("Enter"));
+                extentTest.log(LogStatus.INFO, "Ingresso Login", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android("Enter")));
                 break;
             }
         }
@@ -93,18 +93,18 @@ public class Test_Android_001 {
         if (i == 5){
             androidDriver.findElement(By.id(Utils.valoreProp("id.btn.add","android"))).click();
             Thread.sleep(1000);
-            extentTest.log(LogStatus.INFO, "Attesa di nuovo utente", Utils.getScreenBase64Android("Utente1"));
+            extentTest.log(LogStatus.INFO, "Attesa di nuovo utente", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android("Utente1")));
             androidDriver.findElement(By.id(Utils.valoreProp("id.edit.name","android"))).sendKeys("Franco");
             androidDriver.findElement(By.id(Utils.valoreProp("id.final.add","android"))).click();
             Thread.sleep(1000);
-            extentTest.log(LogStatus.INFO, "Nuovo utente salvato", Utils.getScreenBase64Android("Utente2"));
+            extentTest.log(LogStatus.INFO, "Nuovo utente salvato", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android("Utente2")));
         }
         Thread.sleep(1000);
         androidDriver.findElement(By.id(Utils.valoreProp("id.btn.final.reset","android"))).click();
         Thread.sleep(700);
         androidDriver.findElement(By.id(Utils.valoreProp("id.btn.accettazione","android"))).click();
         Thread.sleep(1000);
-        extentTest.log(LogStatus.PASS, "Fine esercizio", Utils.getScreenBase64Android("Vuoto"));
+        extentTest.log(LogStatus.PASS, "Fine esercizio", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android("Vuoto")));
     }
 
 
