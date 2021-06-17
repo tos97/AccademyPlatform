@@ -106,4 +106,35 @@ public class StepsMobile {
 
         return arrayRicerca;
     }
+
+    public void login(WebDriver driver,String q) throws InterruptedException{
+        driver.findElement(By.id(Utils.valoreProp("app.id.username", "android"))).sendKeys(q);
+        driver.findElement(By.id(Utils.valoreProp("app.id.pwd", "android"))).sendKeys(q);
+        driver.findElement(By.id(Utils.valoreProp("app.btn.login", "android"))).click();
+        Thread.sleep(1000);
+    }
+
+    public void start(WebDriver driver) throws InterruptedException{
+        driver.findElement(By.id(Utils.valoreProp("id.bershka.cookie","android"))).click();
+        Thread.sleep(3000);
+        driver.findElement(By.id(Utils.valoreProp("id.bershka.go","android"))).click();
+        Thread.sleep(6000);
+        driver.findElement(By.id(Utils.valoreProp("id.bershka.next","android"))).click();
+        Thread.sleep(2000);
+        driver.findElement(By.id(Utils.valoreProp("id.bershka.geo.start","android"))).click();
+        Thread.sleep(1000);
+        driver.findElement(By.id(Utils.valoreProp("id.bershka.geo.accept","android"))).click();
+        Thread.sleep(6000);
+    }
+
+    public void ricercaBershka(WebDriver driver,String prop) throws InterruptedException{
+        driver.findElement(By.xpath(Utils.valoreProp(prop, "android"))).click();
+        Thread.sleep(5000);
+        driver.findElement(By.id("com.inditex.ecommerce.bershka:id/product_detail.add_container")).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.drawerlayout.widget.DrawerLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.RelativeLayout/androidx.recyclerview.widget.RecyclerView/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.widget.TextView")).click();
+        Thread.sleep(5000);
+        driver.findElement(By.id("com.inditex.ecommerce.bershka:id/size.add")).click();
+        Thread.sleep(6000);
+    }
 }
