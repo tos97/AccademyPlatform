@@ -10,6 +10,11 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+#Cucumber
+node_modules
+*/node_modules
+/package-lock.json
+
 # Package Files #
 *.jar
 *.war
@@ -42,3 +47,5 @@ report/
 hs_err_pid*
 
 .idea/
+
+

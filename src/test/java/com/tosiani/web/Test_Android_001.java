@@ -25,8 +25,6 @@ import static com.tosiani.utility.GlobalParameters.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test_Android_001 {
 
-    static private WebDriver driver = null;
-    static private WebElement webElement = null;
     static private ExtentReports extentReports;
     static private ExtentTest extentTest;
     static private AndroidDriver<?> androidDriver;
@@ -185,15 +183,6 @@ public class Test_Android_001 {
         Thread.sleep(1000);
         extentTest.log(LogStatus.PASS, "Fine esercizio", extentTest.addBase64ScreenShot(Utils.getScreenBase64Android("Vuoto")));
         androidDriver.navigate().back();
-    }
-
-    @Test
-    @Order(4)
-    @DisplayName("Test Android su zara")
-    @Tag("Mobile")
-    void Test_004_Android(TestInfo testInfo) throws InterruptedException{
-        extentTest = extentReports.startTest(testInfo.getDisplayName());
-
     }
 
 

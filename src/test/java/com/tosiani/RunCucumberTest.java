@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "src/test/resources",
+        tags = {"@Mobile"},
         glue = "com.tosiani.step.cucumber",
         plugin = {"html:testreportdir","json:testreportdir/testreport.json"}
 )

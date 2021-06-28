@@ -26,13 +26,13 @@ public class TrenitaliaSteps {
     private WebElement webElement = null;
     private Properties prop = null;
 
-    @Before
+    /*@Before
     public void doSomethingBeforeStep(){
         DefaultChromeOptions defaultChromeOptions = new DefaultChromeOptions(new ChromeOptions());
         ManagmentDriver.startDriver(defaultChromeOptions);
         driver = ManagmentDriver.getDriver();
         prop = Utils.loadProp("trenitalia");
-    }
+    }*/
 
 
     @Given("open site")
@@ -139,9 +139,8 @@ public class TrenitaliaSteps {
     }
 
 
-    @After
+    /*@After
     public void doSomethingAfter(){
         ManagmentDriver.stopDriver();
-    }
-
+    }*/
 }
